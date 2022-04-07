@@ -2,7 +2,29 @@ import json
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, create_animal, create_location, create_employee, create_customer
+from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, create_animal, create_location, create_employee, create_customer, delete_animal, delete_location, delete_employee, delete_customer
+
+# What is a HTTP status code?
+# An HTTP status code is a server response to a browser's request.
+# When you visit a website, your browser sends a request to the site's server,
+# and the server then responds to the browser's request with a three-digit code:
+# the HTTP status code.
+
+# The HTTP 200 OK success status response code indicates that the request has succeeded.
+# A 200 response is cacheable by default.
+# The meaning of a success depends on the HTTP request method:
+# GET : The resource has been fetched and is transmitted in the message body.
+
+# The HTTP 201 Created success status response code indicates that the request has succeeded
+# and has led to the creation of a resource.
+
+# The HTTP headers are used to pass additional information between the clients and the server
+# through the request and response header.
+
+# A function is a reusable block of programming statements designed to perform a certain task.
+# To define a function, Python provides the def keyword.
+
+
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -141,6 +163,33 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Encode the new resource and send in response
         self.wfile.write(f"{new_resource}".encode())
+        
+
+    def do_DELETE(self):
+        # Set a 204 response code
+        # A 204 response code in HTTP means, 
+        # "I, the server, successfully processed your request, 
+        # but I have no information to send back to you."
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single animal from the list
+        if resource == "animals":
+            delete_animal(id)
+            
+        if resource == "locations":
+            delete_location(id)    
+            
+        if resource == "employees":
+            delete_employee(id) 
+            
+        if resource == "customers":
+            delete_customer(id)       
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 
 # This function is not inside the class. It is the starting
