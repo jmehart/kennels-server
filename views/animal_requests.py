@@ -131,7 +131,17 @@ def get_animals_by_status(status):
             animal = Animal(row['id'], row['name'], row['breed'], row['status'], row['location_id'] , row['customer_id'])
             animals.append(animal.__dict__)
 
-    return json.dumps(animals)    
+    return json.dumps(animals)   
+
+
+def delete_animal(id):
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM animal
+        WHERE id = ?
+        """, (id, )) 
 
 
 # ANIMALS = [

@@ -2,7 +2,7 @@ import json
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, get_customers_by_email, get_animals_by_location_id, get_employees_by_location_id, get_animals_by_status
+from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, get_customers_by_email, get_animals_by_location_id, get_employees_by_location_id, get_animals_by_status, delete_animal
 
 # What is a HTTP status code?
 # An HTTP status code is a server response to a browser's request.
@@ -195,31 +195,31 @@ class HandleRequests(BaseHTTPRequestHandler):
     #     self.wfile.write(f"{new_resource}".encode())
         
 
-    # def do_DELETE(self):
+    def do_DELETE(self):
     #     # Set a 204 response code
     #     # A 204 response code in HTTP means, 
     #     # "I, the server, successfully processed your request, 
     #     # but I have no information to send back to you."
-    #     self._set_headers(204)
+        self._set_headers(204)
 
     #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+        (resource, id) = self.parse_url(self.path)
 
     #     # Delete a single animal from the list
-    #     # if resource == "animals":
-    #     #     delete_animal(id)
+        if resource == "animals":
+            delete_animal(id)
             
-    #     if resource == "locations":
-    #         delete_location(id)    
+        # if resource == "locations":
+        #     delete_location(id)    
             
-    #     if resource == "employees":
-    #         delete_employee(id) 
+        # if resource == "employees":
+        #     delete_employee(id) 
             
-    #     if resource == "customers":
-    #         delete_customer(id)       
+        # if resource == "customers":
+        #     delete_customer(id)       
 
     #     # Encode the new animal and send in response
-    #     self.wfile.write("".encode())
+        self.wfile.write("".encode())
         
         
     # def do_PUT(self):
