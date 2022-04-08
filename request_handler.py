@@ -24,7 +24,16 @@ from views import get_all_animals, get_single_animal, get_all_locations, get_sin
 # A function is a reusable block of programming statements designed to perform a certain task.
 # To define a function, Python provides the def keyword.
 
+# A Python if block no longer uses paranthesis 
 
+# A Python list is like an array - booleans are now capitalized
+
+# A Python dictionary looks like a JSON object and is used to create a collection of key value pairs
+# a key doesn't have to be a string with Python
+
+# Python print() function is similar to console.log()
+
+# Whitespace / indentation defines scope rather than {}
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -36,6 +45,12 @@ class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
     """
 
+# A tuple is a specialized list in Python and is surrounded by parenthesis.
+# What makes it different is that it is immutable - meaning it cannot be changed after it is created.
+# You can't add things, remove things, or change the position of anything in it.
+# In Python, there is a very powerful tuple assignment feature that assigns the right-hand side of values into the left-hand side.
+# In another way, it is called unpacking of a tuple of values into a variable.
+# In packing, we put values into a new tuple while in unpacking we extract those values into a single variable.
     def parse_url(self, path):
         path_params = path.split("/")
         resource = path_params[1]
@@ -50,14 +65,16 @@ class HandleRequests(BaseHTTPRequestHandler):
             key = pair[0]  # 'email'
             value = pair[1]  # 'jenna@solis.com'
 
-            return ( resource, key, value )
+            return ( resource, key, value ) # This is a tuple
 
         # No query string parameter
         else:
             id = None
-
+            # Try to get the item at index 2
             try:
-                id = int(path_params[2])
+                id = int(path_params[2]) # int() Python function to convert a string to an integer
+                # Convert the string "1" to the integer 1
+                # This is the new parseInt()
             except IndexError:
                 pass  # No route parameter exists: /animals
             except ValueError:
@@ -105,6 +122,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         # items in it, which means the request was for
         # `/animals` or `/animals/2`
         if len(parsed) == 2:
+            # Parse the URL and capture the tuple that is returned
             ( resource, id ) = parsed
 
             if resource == "animals":
@@ -152,13 +170,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
-    # It handles any POST request.
+    # It handles any POST request: creates a new object that's converted from a string into a Python dictionary,
+    # then added to the ANIMALS list or other list you choose in views
     # def do_POST(self):
     #     self._set_headers(201)
     #     content_len = int(self.headers.get('content-length', 0))
     #     post_body = self.rfile.read(content_len)
 
     #     # Convert JSON string to a Python dictionary
+    #     # In Python, you convert a string to a dictionary with json.loads().
     #     post_body = json.loads(post_body)
 
     #     # Parse the URL

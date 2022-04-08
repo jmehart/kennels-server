@@ -40,12 +40,13 @@ def get_all_animals():
                             row['status'], row['location_id'],
                             row['customer_id'])
 
-            animals.append(animal.__dict__)
+            animals.append(animal.__dict__) # append() in Python is similar to push() in JS
 
     # Use `json` package to properly serialize list as JSON
     return json.dumps(animals)
 
 
+# Function with a single parameter
 def get_single_animal(id):
     with sqlite3.connect("./kennel.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
@@ -143,6 +144,14 @@ def delete_animal(id):
         WHERE id = ?
         """, (id, )) 
 
+## Different parts of a URL path:
+# Requested URL	                Path
+# localhost:8088/animals	    /animals
+# localhost:8088/locations	    /locations
+# localhost:8088/animals/new	/animals/new
+# localhost:8088/animals/1	    /animals/1
+
+
 
 # ANIMALS = [
 #     {
@@ -193,7 +202,7 @@ def delete_animal(id):
 
 
 # def create_animal(animal):
-#     # Get the id value of the last animal in the list
+#     # Get the id value of the last animal in the list with the array index -1
 #     max_id = ANIMALS[-1]["id"]
 
 #     # Add 1 to whatever that number is
