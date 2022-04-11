@@ -103,7 +103,34 @@ def get_employees_by_location_id(location_id):
             employee = Employee(row['id'], row['name'], row['address'], row['location_id'] )
             employees.append(employee.__dict__)
 
-    return json.dumps(employees)       
+    return json.dumps(employees)
+
+
+def create_employee(new_employee):
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Employee
+            ( name, address, location_id )
+        VALUES
+            ( ?, ?, ? );
+        """, (new_employee['name'], new_employee['address'],
+              new_employee['locationId'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the employee dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_employee['id'] = id
+
+
+    return json.dumps(new_employee)  
+
 
 
 # EMPLOYEES = [
@@ -139,16 +166,16 @@ def get_employees_by_location_id(location_id):
 
 
 # def create_employee(employee):
-#     # Get the id value of the last animal in the list
+#     # Get the id value of the last employee in the list
 #     max_id = EMPLOYEES[-1]["id"]
 
 #     # Add 1 to whatever that number is
 #     new_id = max_id + 1
 
-#     # Add an `id` property to the animal dictionary
+#     # Add an `id` property to the employee dictionary
 #     employee["id"] = new_id
 
-#     # Add the animal dictionary to the list
+#     # Add the employee dictionary to the list
 #     EMPLOYEES.append(employee)
 
 #     # Return the dictionary with `id` property added
