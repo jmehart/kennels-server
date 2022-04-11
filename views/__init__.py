@@ -5,7 +5,7 @@
 # With Python packages, you don't need to specify the file path and name. 
 # You can combine all of the files in sub-directories, and sub-directories of sub-directories, into a single namespace.
 
-from .animal_requests import get_all_animals, get_single_animal, get_animals_by_location_id, get_animals_by_status, delete_animal
+from .animal_requests import get_all_animals, get_single_animal, get_animals_by_location_id, get_animals_by_status, delete_animal, update_animal
 
 from .location_requests import get_all_locations, get_single_location
 

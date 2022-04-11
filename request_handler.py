@@ -2,7 +2,7 @@ import json
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, get_customers_by_email, get_animals_by_location_id, get_employees_by_location_id, get_animals_by_status, delete_animal
+from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer, get_customers_by_email, get_animals_by_location_id, get_employees_by_location_id, get_animals_by_status, delete_animal, update_animal
 
 # What is a HTTP status code?
 # An HTTP status code is a server response to a browser's request.
@@ -168,6 +168,28 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_animals_by_status(value)          
 
         self.wfile.write(response.encode())
+        
+        
+    def do_PUT(self):
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "animals":
+            success = update_animal(id, post_body)
+        # rest of the elif's
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+        self.wfile.write("".encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request: creates a new object that's converted from a string into a Python dictionary,
